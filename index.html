@@ -1,0 +1,102 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NPhoto2 - Photo Gallery</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f2f5ff;
+      color: #222;
+    }
+    header {
+      background: #5146e5;
+      color: white;
+      padding: 22px;
+      text-align: center;
+    }
+    .upload {
+      text-align: center;
+      padding: 25px 10px;
+    }
+    button {
+      background: #5146e5;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+      padding: 20px;
+    }
+    .photo {
+      background: white;
+      padding: 10px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px #0001;
+    }
+    .photo img {
+      width: 100%;
+      border-radius: 8px;
+    }
+    .photo a {
+      display: block;
+      margin-top: 10px;
+      text-align: center;
+      color: #5146e5;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>NPhoto2</h1>
+    <p>Photo Upload & Download</p>
+  </header>
+
+  <div class="upload">
+    <h2>अपनी फोटो चुनें</h2>
+    <input type="file" id="photoInput" accept="image/*" multiple>
+    <p><button onclick="uploadPhotos()">फोटो दिखाएँ</button></p>
+    <p>अपनी फोटो चुनकर इस पेज पर देखो और डाउनलोड करो।</p>
+  </div>
+
+  <div id="gallery"></div>
+
+  <script>
+    function uploadPhotos() {
+      const input = document.getElementById('photoInput');
+      const gallery = document.getElementById('gallery');
+
+      for (const file of input.files) {
+        if (!file.type.startsWith('image/')) continue;
+
+        const url = URL.createObjectURL(file);
+        const card = document.createElement('div');
+        card.className = 'photo';
+
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = file.name;
+
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = file.name;
+        link.textContent = 'फोटो डाउनलोड करें';
+
+        card.appendChild(img);
+        card.appendChild(link);
+        gallery.appendChild(card);
+      }
+
+      input.value = '';
+    }
+  </script>
+</body>
+</html>
